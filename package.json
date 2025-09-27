@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "ollama-init": "docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama",
     "ollama-start": "docker start ollama",
-    "start": "node dist/index.js",
+    "ollama-stop": "docker stop ollama",
+    "start": "node -r dotenv/config dist/index.js",
     "prestart": "npm run build"
   },
   "repository": {
@@ -29,6 +30,8 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.18.2",
+    "dotenv": "^17.2.2",
+    "ollama": "^0.6.0",
     "zod": "^3.25.76"
   }
 }
