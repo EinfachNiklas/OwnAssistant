@@ -2,12 +2,14 @@
   "name": "ownassistant",
   "version": "1.0.0",
   "description": "A customizable AI Home Assistant that integrates ollama with multiple functionalities using MCP",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "ollama-init": "docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama",
-    "ollama-start": "docker start ollama"
+    "ollama-start": "docker start ollama",
+    "start": "node dist/index.js",
+    "prestart": "npm run build"
   },
   "repository": {
     "type": "git",
