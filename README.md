@@ -14,8 +14,34 @@ What things you need to install the software and how to install them
 
 ### Installing
 
->[!NOTE] 
-To be done
+#### Installing Dependencies
+In the root directory run the command
+```bash
+npm run i
+```
+
+#### Setting Environment Variables
+
+In the root directory copy `.env.example` to `.env` and change the values. Find a list of all Environment Variables [here](#environment-variables)
+
+#### Setting up Ollama
+
+To initially create an Ollama Docker container run the following command
+```bash
+npm run ollama-init
+```
+
+To start or stop Ollama run the corresponding of the following commands:
+```bash
+npm run ollama-start # Start Ollama
+npm run ollama-stop  # Stop Ollama 
+```
+
+#### Start the Application
+To start the application run the following command
+```bash
+npm run start
+```
 
 ## Running the tests
 
@@ -52,8 +78,10 @@ To be done
 
 ### Environment Variables
 
->[!NOTE] 
-To be done
+| Variable              | Description                                                            | Default                      |
+| --------------------- | ---------------------------------------------------------------------- | ---------------------------- |
+| `MAX_CHAT_ITERATIONS` | Maximum Number of Iterations and Tool Calls the LLM is allowed to take | `6`                          |
+| `MODEL`               | Model used to orchestrate tools                                        | `qwen2.5:3b-instruct-q4_K_M` |
 
 ### Planned Architecture
 
