@@ -4,8 +4,10 @@
   "description": "A customizable AI Home Assistant that integrates ollama with multiple functionalities using MCP",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "ollama-init": "docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama",
+    "ollama-start": "docker start ollama"
   },
   "repository": {
     "type": "git",
@@ -18,5 +20,13 @@
   "bugs": {
     "url": "https://github.com/EinfachNiklas/OwnAssistant/issues"
   },
-  "homepage": "https://github.com/EinfachNiklas/OwnAssistant#readme"
+  "homepage": "https://github.com/EinfachNiklas/OwnAssistant#readme",
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.18.2",
+    "zod": "^3.25.76"
+  }
 }
