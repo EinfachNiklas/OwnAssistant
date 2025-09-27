@@ -28,24 +28,5 @@ server.registerTool(
 
 );
 
-
-server.registerTool(
-    "add_event",
-    {
-        title: "Add Event",
-        description: "Add an Event to the calendar",
-        inputSchema: {
-            title: z.string().describe("The title for the event"),
-            datetime: z.string().describe("The Datetime of the event in format YYYY-MM-DDTHH:MM:SS"),
-        },
-    },
-    async ({ title, datetime }) => {
-        return {
-            content: [{ type: "text", text: `event for ${JSON.stringify({ title: title, datetime: datetime })} created` }]
-        };
-    },
-
-);
-
 const transport = new StdioServerTransport();
 await server.connect(transport);
