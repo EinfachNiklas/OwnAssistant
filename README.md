@@ -22,7 +22,7 @@ What things you need to install the software and how to install them
 #### Installing Dependencies
 In the root directory run the command
 ```bash
-npm run i
+npm install
 ```
 
 #### Setting Environment Variables

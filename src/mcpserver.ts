@@ -16,10 +16,9 @@ server.registerTool(
     {
         title: "Get current datetime",
         description: "Get the current systemtime and date",
-        inputSchema: {
-        },
+        inputSchema: {}
     },
-    async ({ }) => {
+    async () => {
         const current_datetime = new Date().toString();
         return {
             content: [{ type: "text", text: `The current date and time is: ${current_datetime}` }]

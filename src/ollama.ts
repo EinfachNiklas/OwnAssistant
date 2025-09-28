@@ -11,7 +11,7 @@ type OllamaTool = {
     };
 };
 
-const MAX_CHAT_ITERATIONS = Number(process.env.MAX_CHAT_ITERATIONS) || 0;
+const MAX_CHAT_ITERATIONS = Number(process.env.MAX_CHAT_ITERATIONS) || 6;
 const mcpTools = await mcpclient.listTools();
 
 const ollamaTools: OllamaTool[] = mcpTools.tools.map((t) => ({
@@ -39,15 +39,15 @@ const handleResponse = async (messages: Message[], response: ChatResponse) => {
     }
 }
 
-export async function setupLLM(modelName:string){
+export async function setupLLM(modelName: string) {
     const models = (await ollama.list()).models;
-    if(!models.map(model=>model.name).includes(modelName)){
+    if (!models.map(model => model.name).includes(modelName)) {
         console.log(`Downloading Model ${modelName}`);
-        await ollama.pull({model:modelName});
+        await ollama.pull({ model: modelName });
     }
 }
 
-export async function callLLM(model:string, message: Message) {
+export async function callLLM(model: string, message: Message) {
     const messages: Message[] = [message];
     let done = false;
     for (let i = 0; i < MAX_CHAT_ITERATIONS && !done; i++) {
@@ -56,6 +56,9 @@ export async function callLLM(model:string, message: Message) {
             messages: messages,
             tools: ollamaTools,
             keep_alive: "5m",
+            options: { 
+                num_ctx: 2048 
+            }
         });
         await handleResponse(messages, response);
         const toolCalls = response.message?.tool_calls ?? [];
