@@ -39,7 +39,7 @@ const handleResponse = async (messages: Message[], response: ChatResponse) => {
     if (response.message.tool_calls && calls.length !== 0) {
         for (let i = 0; i < calls.length; i++) {
             const toolCall = calls[i];
-            console.info("[TOOL]" + toolCall.function.name);
+            console.info("[TOOL]" + toolCall.function.name, toolCall.function.arguments);
             const toolRes = await mcpclient.callTool({
                 name: toolCall.function.name,
                 arguments: toolCall.function.arguments
@@ -64,7 +64,7 @@ export async function setupLLM(modelName: string) {
 }
 
 export async function callLLM(model: string, message: Message) {
-    const messages: Message[] = [promptTemplates.introduction, message];
+    const messages: Message[] = [promptTemplates.introduction, { role: "system", content: `This is some context for you to make further decisions: current time: ${new Date().toString()}` }, message];
     let done = false;
     for (let i = 0; i < MAX_CHAT_ITERATIONS && !done; i++) {
         const response = await ollama.chat({
