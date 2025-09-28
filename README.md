@@ -4,6 +4,7 @@ A customizable AI Home Assistant that integrates ollama with multiple functional
 ## List of Functionalities
 - Get the Current Datetime via Tools: 
   - ```get_current_datetime```
+- Work with [Google Calendar](https://developers.google.com/workspace/calendar/api/quickstart/nodejs)
 
 
 ## Getting Started
