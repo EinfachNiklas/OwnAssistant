@@ -1,6 +1,6 @@
 import ollama, { ChatResponse, Message } from "ollama";
 import mcpclient from "./mcpclient.js";
-
+import ora from "ora";
 
 type OllamaTool = {
     type: "function";
@@ -40,11 +40,17 @@ const handleResponse = async (messages: Message[], response: ChatResponse) => {
 }
 
 export async function setupLLM(modelName: string) {
+    console.log("Setting Up LLM...");
     const models = (await ollama.list()).models;
     if (!models.map(model => model.name).includes(modelName)) {
-        console.log(`Downloading Model ${modelName}`);
+        console.log(`Model ${modelName} not installed`);
+        const sp = ora(`Downloading Model ${modelName}`).start();
         await ollama.pull({ model: modelName });
+        sp.succeed(`Model ${modelName} downloaded`);
+    }else{
+        console.log(`Model ${modelName} found`);
     }
+    console.log("LLM-Setup complete")
 }
 
 export async function callLLM(model: string, message: Message) {
