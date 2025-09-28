@@ -4,7 +4,7 @@
   "description": "A customizable AI Home Assistant that integrates ollama with multiple functionalities using MCP",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp -n src/prompts.json dist/prompts.json",
     "test": "echo \"Error: no test specified\" && exit 1",
     "ollama-init": "docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama",
     "ollama-start": "docker start ollama",
