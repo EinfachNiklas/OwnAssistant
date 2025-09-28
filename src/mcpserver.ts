@@ -11,5 +11,21 @@ const server = new McpServer({
     },
 });
 
+server.registerTool(
+    "get_current_datetime",
+    {
+        title: "Get current datetime",
+        description: "Get the current systemtime and date",
+        inputSchema: {}
+    },
+    async () => {
+        const current_datetime = new Date().toString();
+        return {
+            content: [{ type: "text", text: `The current date and time is: ${current_datetime}` }]
+        };
+    },
+
+);
+
 const transport = new StdioServerTransport();
 await server.connect(transport);
