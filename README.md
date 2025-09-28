@@ -47,7 +47,8 @@ To start the application run the following command
 ```bash
 npm run start
 ```
-
+>[!NOTE]
+>When starting the application for the first time and when you change the used model, the startup can take several minutes, since the model has to be downloaded. 
 ## Running the tests
 
 ### End to End Tests
@@ -83,10 +84,15 @@ To be done
 
 ### Environment Variables
 
-| Variable              | Description                                                            | Default                      |
-| --------------------- | ---------------------------------------------------------------------- | ---------------------------- |
-| `MAX_CHAT_ITERATIONS` | Maximum Number of Iterations and Tool Calls the LLM is allowed to take | `6`                          |
-| `MODEL`               | Model used to orchestrate tools                                        | `qwen2.5:3b-instruct-q4_K_M` |
+| Variable              | Description                                                                            | Default                       |
+| --------------------- | -------------------------------------------------------------------------------------- | ----------------------------- |
+| `MAX_CHAT_ITERATIONS` | Maximum Number of Iterations and Tool Calls the LLM is allowed to take                 | `6`                           |
+| `MODEL`               | Model used to orchestrate tools. See [List of Recommended Models](#recommended-models) | `llama3.2:3b-instruct-q4_K_M` |
+
+### Recommended Models
+#### Small
+- qwen2.5:3b-instruct-q4_K_M
+- llama3.2:3b-instruct-q4_K_M
 
 ### Planned Architecture
 
