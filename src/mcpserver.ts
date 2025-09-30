@@ -45,12 +45,17 @@ server.registerTool(
     },
     async ({ startTime, endTime }) => {
         const start = startTime === "default" ? new Date() : new Date(startTime);
-        const end = endTime === "default" ? new Date(new Date().getFullYear() + 1) : new Date(endTime);
-
-        const events = await getEvents(start, end);
-        return {
-            content: [{ type: "text", text: `The upcoming events are ${JSON.stringify(events)}` }]
-        };
+        const end = endTime === "default" ? (() => { const date = new Date(); date.setFullYear(date.getFullYear() + 1); return date; })() : new Date(endTime);
+        try {
+            const events = await getEvents(start, end);
+            return {
+                content: [{ type: "text", text: `The upcoming events are ${JSON.stringify(events)}` }]
+            };
+        } catch (error: any) {
+            return {
+                content: [{ type: "text", text: `There was an error in calling this tool. ${error.message}. Please check your input and try again.` }]
+            };
+        }
     }
 );
 
@@ -61,17 +66,23 @@ server.registerTool(
         description: "Create an event on the users calendar.",
         inputSchema: {
             title: z.string().describe("The title of the event"),
-            start: z.string().describe("The start time of the event in format YYYY-MM-DDTHH:MM:SS"),
-            end: z.string().describe("The end time of the event in format YYYY-MM-DDTHH:MM:SS")
+            start: z.string().describe("The start time of the event strictly in format YYYY-MM-DDTHH:MM:SS. It must never not adhere to this format."),
+            end: z.string().describe("The end time of the event strictly in format YYYY-MM-DDTHH:MM:SS. It must never not adhere to this format. The end datetime must be after the start.")
         }
     },
-    async ({title, start, end}) => {
+    async ({ title, start, end }) => {
         const startTime = new Date(start);
         const endTime = new Date(end);
-        const event = createEvent(title, startTime, endTime);
-        return {
-            content: [{ type: "text", text: `Created the event ${JSON.stringify(event)}` }]
-        };
+        try {
+            const event = await createEvent(title, startTime, endTime);
+            return {
+                content: [{ type: "text", text: `Created the event ${JSON.stringify(event)}` }]
+            };
+        } catch (error: any) {
+            return {
+                content: [{ type: "text", text: `There was an error in calling this tool. ${error.message}. Please check your input and try again.` }]
+            };
+        }
     }
 );
 
