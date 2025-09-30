@@ -5,7 +5,7 @@ import { calendar_v3, google } from 'googleapis';
 
 const GOOGLE_SHARED_CALENDAR_ID = process.env.GOOGLE_SHARED_CALENDAR_ID;
 if (!GOOGLE_SHARED_CALENDAR_ID) {
-  throw new Error('GOOGLE_SHARED_CALENDAR_ID is not set but is required');
+    throw new Error('GOOGLE_SHARED_CALENDAR_ID is not set but is required');
 }
 
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
@@ -18,7 +18,7 @@ const jwtClient = new google.auth.JWT({
 const calendar = google.calendar({ version: 'v3', auth: jwtClient });
 
 export async function getEvents(timeMin: Date, timeMax: Date) {
-    console.info(GOOGLE_SHARED_CALENDAR_ID);
+    console.info(timeMin.toISOString(), timeMax.toISOString());
     const result = await calendar.events.list({
         calendarId: GOOGLE_SHARED_CALENDAR_ID,
         timeMin: timeMin.toISOString(),
@@ -46,11 +46,12 @@ export async function createEvent(title: string, start: Date, end: Date) {
     calendar.events.insert({
         calendarId: GOOGLE_SHARED_CALENDAR_ID,
         requestBody: event
-    }, function (err, event) {
+    }, function (err) {
         if (err) {
-            console.log('There was an error contacting the Calendar service: ' + err);
+            console.error('There was an error contacting the Calendar service: ' + err);
             return;
         }
-        return event;
+        
     });
+    return event;
 }
