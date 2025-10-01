@@ -18,12 +18,11 @@ const jwtClient = new google.auth.JWT({
 const calendar = google.calendar({ version: 'v3', auth: jwtClient });
 
 export async function getEvents(timeMin: Date, timeMax: Date) {
-    console.info(timeMin.toISOString(), timeMax.toISOString());
     const result = await calendar.events.list({
         calendarId: GOOGLE_SHARED_CALENDAR_ID,
         timeMin: timeMin.toISOString(),
         timeMax: timeMax.toISOString(),
-        maxResults: 10,
+        maxResults: 25,
         singleEvents: true,
         orderBy: 'startTime',
     });
@@ -43,15 +42,9 @@ export async function createEvent(title: string, start: Date, end: Date) {
         start: { dateTime: start.toISOString(), timeZone: "Europe/Berlin" },
         end: { dateTime: end.toISOString(), timeZone: "Europe/Berlin" }
     }
-    calendar.events.insert({
+    const res = await calendar.events.insert({
         calendarId: GOOGLE_SHARED_CALENDAR_ID,
         requestBody: event
-    }, function (err) {
-        if (err) {
-            console.error('There was an error contacting the Calendar service: ' + err);
-            return;
-        }
-        
     });
-    return event;
+    return res.data;
 }
