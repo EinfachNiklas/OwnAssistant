@@ -46,8 +46,9 @@ npm run ollama-stop  # Stop Ollama
 ```
 
 #### Start the Application
-To start the application run the following command
+To start the application run the following commands
 ```bash
+npm run build
 npm run start
 ```
 >[!NOTE]
@@ -99,7 +100,7 @@ In step 2 choose "Editor" as the assigned role for this account.
 Back on the overview page [https://console.cloud.google.com/apis/credentials](https://console.cloud.google.com/apis/credentials) click on your newly created service account. Navigat to the "Keys" section and select "Add key" and "Create new key". In the popup menu select JSON as the file type and download the key file.
 ![res/google_private_key.png](res/google_private_key.png)
 
-Move the json file to the root directory of this repo and rename it to ```google_auth.json```. You can also copy ```google_auth_example.json``` and rename it to ```google_auth.json```.
+Move the json file to the root directory of this repo and rename it to ```google_auth.json```. You can also copy ```google_auth_example.json``` and rename it to ```google_auth.json```. Make sure not to add this file to version control as it contains your credentials. Keep it safe!
 
 This whole process created a service google account. It can be treated as any other google account for this use case. You can now choose to either
 - share your personal google calendar with the email address of this service account. This allows OwnAssistant to create and read events from this calendar.
