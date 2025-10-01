@@ -1,9 +1,12 @@
 # OwnAssistant
 A customizable AI Home Assistant that integrates ollama with multiple functionalities using MCP  
 
-## List of Functionalities
-- Get the Current Datetime via Tools: 
+## Functionalities and Tools
+- Get the Current Datetime: 
   - ```get_current_datetime```
+- Work with Google Calendar - [Setup](#google-calendar):
+  - ```create_event```
+  - ```get_events```
 
 
 ## Getting Started
@@ -43,8 +46,9 @@ npm run ollama-stop  # Stop Ollama
 ```
 
 #### Start the Application
-To start the application run the following command
+To start the application run the following commands
 ```bash
+npm run build
 npm run start
 ```
 >[!NOTE]
@@ -75,6 +79,38 @@ To be done
 >[!NOTE] 
 To be done
 
+## Functionality Setup
+### Google Calendar
+To connect Google Calendar, the Google Cloud is used. For this you need a Google Account with Google Calendar enabled. To get started, create a Google Cloud Project. Follow this [guide](https://developers.google.com/workspace/guides/create-project). Setting up billing is not necessary. 
+
+In the hamburger menu on the left side of the screen select "APIs and services".
+![res/google_apis.png](res/google_apis.png)
+
+Now select "Enable APIs and services" and search for "google calendar api". Click on the corresponding entry and enable the API for Google Calendar.
+![res/google_enable_apis.png](res/google_enable_apis.png)
+![res/google_calendar_search.png](res/google_calendar_search.png)
+
+Now visit [https://console.cloud.google.com/apis/credentials](https://console.cloud.google.com/apis/credentials). Click on "Create credentials" and select "Service account".
+![res/google_select_create_service_account.png](res/google_select_create_service_account.png)
+
+Fill the input fields and keep the created email address in mind for later.
+![res/google_create_service_account.png](res/google_create_service_account.png)
+
+In step 2 choose "Editor" as the assigned role for this account.
+Back on the overview page [https://console.cloud.google.com/apis/credentials](https://console.cloud.google.com/apis/credentials) click on your newly created service account. Navigate to the "Keys" section and select "Add key" and "Create new key". In the popup menu select JSON as the file type and download the key file.
+![res/google_private_key.png](res/google_private_key.png)
+
+Move the json file to the root directory of this repo and rename it to ```google_auth.json```. You can also copy ```google_auth_example.json``` and rename it to ```google_auth.json```. Make sure not to add this file to version control as it contains your credentials. Keep it safe!
+
+This whole process created a service Google account. It can be treated as any other Google account for this use case. You can now choose to either
+- share your personal Google calendar with the email address of this service account. This allows OwnAssistant to create and read events from this calendar.
+- create a new, separate Google calendar and share it with the email address of this service account. This allows OwnAssistant to only create and read events from this specific calendar and not your main calendar. All events you create in this calendar can be accessed. 
+Follow this [guide](https://support.google.com/a/answer/1626902?hl=en) if you need help.
+
+On this settings page scroll down to "Integrate calendar" and copy the calendar-id. This is used to identify the specific calendar you want to access in this application. Copy this value to the environment variable ```GOOGLE_SHARED_CALENDAR_ID``` in ```.env```.
+
+The setup is now complete. You can now start to use the google calendar functionalities.
+
 ## Technical Details
 
 ### Built With
@@ -84,10 +120,11 @@ To be done
 
 ### Environment Variables
 
-| Variable              | Description                                                                            | Default                       |
-| --------------------- | -------------------------------------------------------------------------------------- | ----------------------------- |
-| `MAX_CHAT_ITERATIONS` | Maximum Number of Iterations and Tool Calls the LLM is allowed to take                 | `6`                           |
-| `MODEL`               | Model used to orchestrate tools. See [List of Recommended Models](#recommended-models) | `llama3.2:3b-instruct-q4_K_M` |
+| Variable                    | Description                                                                            | Default                       |
+| --------------------------- | -------------------------------------------------------------------------------------- | ----------------------------- |
+| `MAX_CHAT_ITERATIONS`       | Maximum Number of Iterations and Tool Calls the LLM is allowed to take                 | `6`                           |
+| `MODEL`                     | Model used to orchestrate tools. See [List of Recommended Models](#recommended-models) | `llama3.2:3b-instruct-q4_K_M` |
+| `GOOGLE_SHARED_CALENDAR_ID` | Google Calendar ID to identify the google calendar used with this application          | none                          |
 
 ### Recommended Models
 #### Small
@@ -96,7 +133,7 @@ To be done
 
 ### Planned Architecture
 
-![architecture](architecture.png)
+![architecture](res/architecture.png)
 
 ### DB Schema
 

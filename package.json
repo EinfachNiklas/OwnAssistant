@@ -12,8 +12,7 @@
     "ollama-init": "docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama",
     "ollama-start": "docker start ollama",
     "ollama-stop": "docker stop ollama",
-    "start": "node -r dotenv/config dist/index.js",
-    "prestart": "npm run build"
+    "start": "node -r dotenv/config dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -35,6 +34,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.18.2",
     "dotenv": "^17.2.2",
+    "googleapis": "^105.0.0",
     "ollama": "^0.6.0",
     "ora": "^9.0.0",
     "zod": "^3.25.76"
