@@ -97,14 +97,14 @@ Fill the input fields and keep the created email address in mind for later.
 ![res/google_create_service_account.png](res/google_create_service_account.png)
 
 In step 2 choose "Editor" as the assigned role for this account.
-Back on the overview page [https://console.cloud.google.com/apis/credentials](https://console.cloud.google.com/apis/credentials) click on your newly created service account. Navigat to the "Keys" section and select "Add key" and "Create new key". In the popup menu select JSON as the file type and download the key file.
+Back on the overview page [https://console.cloud.google.com/apis/credentials](https://console.cloud.google.com/apis/credentials) click on your newly created service account. Navigate to the "Keys" section and select "Add key" and "Create new key". In the popup menu select JSON as the file type and download the key file.
 ![res/google_private_key.png](res/google_private_key.png)
 
 Move the json file to the root directory of this repo and rename it to ```google_auth.json```. You can also copy ```google_auth_example.json``` and rename it to ```google_auth.json```. Make sure not to add this file to version control as it contains your credentials. Keep it safe!
 
-This whole process created a service google account. It can be treated as any other google account for this use case. You can now choose to either
-- share your personal google calendar with the email address of this service account. This allows OwnAssistant to create and read events from this calendar.
-- create a new, separate google calendar and share it with the email address of this service account. This allows OwnAssistant to only create and read events from this specific calendar and not you main calendar. All events you create in this calendar can be accessed. 
+This whole process created a service Google account. It can be treated as any other Google account for this use case. You can now choose to either
+- share your personal Google calendar with the email address of this service account. This allows OwnAssistant to create and read events from this calendar.
+- create a new, separate Google calendar and share it with the email address of this service account. This allows OwnAssistant to only create and read events from this specific calendar and not your main calendar. All events you create in this calendar can be accessed. 
 Follow this [guide](https://support.google.com/a/answer/1626902?hl=en) if you need help.
 
 On this settings page scroll down to "Integrate calendar" and copy the calendar-id. This is used to identify the specific calendar you want to access in this application. Copy this value to the environment variable ```GOOGLE_SHARED_CALENDAR_ID``` in ```.env```.
