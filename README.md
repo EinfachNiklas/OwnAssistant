@@ -84,20 +84,25 @@ To be done
 To connect Google Calendar, the Google Cloud is used. For this you need a Google Account with Google Calendar enabled. To get started, create a Google Cloud Project. Follow this [guide](https://developers.google.com/workspace/guides/create-project). Setting up billing is not necessary. 
 
 In the hamburger menu on the left side of the screen select "APIs and services".
+
 ![res/google_apis.png](res/google_apis.png)
 
 Now select "Enable APIs and services" and search for "google calendar api". Click on the corresponding entry and enable the API for Google Calendar.
+
 ![res/google_enable_apis.png](res/google_enable_apis.png)
 ![res/google_calendar_search.png](res/google_calendar_search.png)
 
 Now visit [https://console.cloud.google.com/apis/credentials](https://console.cloud.google.com/apis/credentials). Click on "Create credentials" and select "Service account".
+
 ![res/google_select_create_service_account.png](res/google_select_create_service_account.png)
 
 Fill the input fields and keep the created email address in mind for later.
+
 ![res/google_create_service_account.png](res/google_create_service_account.png)
 
 In step 2 choose "Editor" as the assigned role for this account.
 Back on the overview page [https://console.cloud.google.com/apis/credentials](https://console.cloud.google.com/apis/credentials) click on your newly created service account. Navigate to the "Keys" section and select "Add key" and "Create new key". In the popup menu select JSON as the file type and download the key file.
+
 ![res/google_private_key.png](res/google_private_key.png)
 
 Move the json file to the root directory of this repo and rename it to ```google_auth.json```. You can also copy ```google_auth_example.json``` and rename it to ```google_auth.json```. Make sure not to add this file to version control as it contains your credentials. Keep it safe!
