@@ -46,8 +46,9 @@ npm run ollama-stop  # Stop Ollama
 ```
 
 #### Start the Application
-To start the application run the following command
+To start the application run the following commands
 ```bash
+npm run build
 npm run start
 ```
 >[!NOTE]
