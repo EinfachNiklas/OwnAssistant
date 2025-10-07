@@ -7,6 +7,9 @@ A customizable AI Home Assistant that integrates ollama with multiple functional
 - Work with Google Calendar - [Setup](#google-calendar):
   - ```create_event```
   - ```get_events```
+- Get Weather
+  - ```get_weather_forecast```
+  - ```get_weather_current```
 
 
 ## Getting Started
@@ -127,9 +130,12 @@ The setup is now complete. You can now start to use the google calendar function
 
 | Variable                    | Description                                                                            | Default                       |
 | --------------------------- | -------------------------------------------------------------------------------------- | ----------------------------- |
+| `GOOGLE_SHARED_CALENDAR_ID` | Google Calendar ID to identify the google calendar used with this application          | none                          |
+| `LATITUDE`                  | Your local latitude rounded to two decimals                                       | none                          |
+| `LONGITUDE`                 | Your local longitude rounded to two decimals                                      | none                          |
 | `MAX_CHAT_ITERATIONS`       | Maximum Number of Iterations and Tool Calls the LLM is allowed to take                 | `6`                           |
 | `MODEL`                     | Model used to orchestrate tools. See [List of Recommended Models](#recommended-models) | `llama3.2:3b-instruct-q4_K_M` |
-| `GOOGLE_SHARED_CALENDAR_ID` | Google Calendar ID to identify the google calendar used with this application          | none                          |
+| `TIMEZONE`                  | Your local timezone of this list ![timezones](res/timezones.png)                       | `Europe/Berlin`               |
 
 ### Recommended Models
 #### Small
