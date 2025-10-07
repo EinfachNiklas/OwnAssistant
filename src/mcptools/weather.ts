@@ -7,7 +7,7 @@ if(!LATITUDE || !LONGITUDE){
     throw new Error('Environment variable LATITUDE or LONGITUDE is not set but is required');
 }
 
-interface Forecast {
+export interface Forecast {
     [date: string]: {
         temp_min: string,
         temp_max: string,
@@ -19,7 +19,7 @@ interface Forecast {
     }
 }
 
-interface Current {
+export interface Current {
     [date: string]: {
         temp: string,
         rain: string,

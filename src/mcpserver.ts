@@ -2,6 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { getEvents, createEvent } from "./mcptools/googleapi.js";
+import { Current, Forecast, get_current, get_forecast } from "./mcptools/weather.js";
 
 const server = new McpServer({
     name: "ownassistant-mcp",
@@ -81,6 +82,38 @@ server.registerTool(
             };
         }
     }
+);
+
+// Weather API
+
+server.registerTool(
+    "get_weather_forecast",
+    {
+        title: "Get weather forecast",
+        description: "Get the weather forecast for the next 7 days for the users pre-configured position",
+        inputSchema: {}
+    },
+    async () => {
+        const forecast: Forecast = await get_forecast();
+        return {
+            content: [{ type: "text", text: `Weather Forecast ${JSON.stringify(forecast)}` }]
+        };
+    },
+);
+
+server.registerTool(
+    "get_weather_current",
+    {
+        title: "Get current weather",
+        description: "Get the current weather for the users pre-configured position",
+        inputSchema: {}
+    },
+    async () => {
+        const current: Current = await get_current();
+        return {
+            content: [{ type: "text", text: `Current Weather ${JSON.stringify(current)}` }]
+        };
+    },
 );
 
 const transport = new StdioServerTransport();
