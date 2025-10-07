@@ -94,10 +94,19 @@ server.registerTool(
         inputSchema: {}
     },
     async () => {
-        const forecast: Forecast = await get_forecast();
-        return {
-            content: [{ type: "text", text: `Weather Forecast ${JSON.stringify(forecast)}` }]
-        };
+        try {
+            const forecast: Forecast = await get_forecast();
+            return {
+                content: [{ type: "text", text: `Weather Forecast ${JSON.stringify(forecast)}` }]
+            };
+        } catch (error: any) {
+            return {
+                content: [{
+                    type: "text",
+                    text: `There was an error fetching the weather forecast. ${error?.message ?? error}`
+                }]
+            };
+        }
     },
 );
 
@@ -109,10 +118,19 @@ server.registerTool(
         inputSchema: {}
     },
     async () => {
-        const current: Current = await get_current();
-        return {
-            content: [{ type: "text", text: `Current Weather ${JSON.stringify(current)}` }]
-        };
+        try {
+            const current: Current = await get_current();
+            return {
+                content: [{ type: "text", text: `Current Weather ${JSON.stringify(current)}` }]
+            };
+        } catch (error: any) {
+            return {
+                content: [{
+                    type: "text",
+                    text: `There was an error fetching the current weather. ${error?.message ?? error}`
+                }]
+            };
+        }
     },
 );
 

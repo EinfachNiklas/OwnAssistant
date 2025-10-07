@@ -3,7 +3,7 @@ import 'dotenv/config';
 const LATITUDE: string = process.env.LATITUDE!;
 const LONGITUDE: string = process.env.LONGITUDE!;
 const TIMEZONE: string = process.env.TIMEZONE ?? 'Europe/Berlin';
-if(!LATITUDE || !LONGITUDE){
+if (!LATITUDE || !LONGITUDE) {
     throw new Error('Environment variable LATITUDE or LONGITUDE is not set but is required');
 }
 
@@ -38,6 +38,9 @@ export async function get_forecast() {
         daily: "weather_code,temperature_2m_min,temperature_2m_max,rain_sum,showers_sum,snowfall_sum,precipitation_probability_max,wind_speed_10m_max",
         timezone: TIMEZONE
     }).toString());
+    if (!res.ok) {
+        throw new Error(`Weather API responded with ${res.status} ${res.statusText}`);
+    }
     const weatherJson = await res.json();
     let forecast: Forecast = {};
     for (let i = 0; i < 7; i++) {
@@ -52,6 +55,9 @@ export async function get_forecast() {
         }
         forecast[weatherJson["daily"]["time"][i]] = data;
     }
+    if (JSON.stringify(forecast).includes("undefined")) {
+        throw new Error(`Weather API responded with undefined data`);
+    }
     return forecast;
 }
 
@@ -62,6 +68,9 @@ export async function get_current() {
         current: "temperature_2m,precipitation,cloud_cover,wind_speed_10m,snowfall,showers,rain",
         timezone: TIMEZONE
     }).toString());
+    if (!res.ok) {
+        throw new Error(`Weather API responded with ${res.status} ${res.statusText}`);
+    }
     const weatherJson = await res.json();
     let current: Current = {};
     const data = {
@@ -74,5 +83,8 @@ export async function get_current() {
         wind_speed: `${weatherJson["current"]["wind_speed_10m"]}${weatherJson["current_units"]["wind_speed_10m"]}`,
     }
     current[weatherJson["current"]["time"]] = data;
+    if (JSON.stringify(current).includes("undefined")) {
+        throw new Error(`Weather API responded with undefined data`);
+    }
     return current;
 }
