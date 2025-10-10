@@ -76,7 +76,8 @@ server.registerTool(
         try {
             if (title.length === 0 || start.length === 0 || end.length === 0) {
                 throw new Error("At least 1 Parameter is empty.");
-            } const startTime = new Date(start);
+            }
+            const startTime = new Date(start);
             const endTime = new Date(end);
             const event = await createEvent(title, startTime, endTime);
             return {
@@ -213,7 +214,7 @@ server.registerTool(
         description: "Set the doneStatus of a shoppinglist entry. Should be called if an item is bought.",
         inputSchema: {
             title: z.string().describe("The title of the shopping list entry to set the doneStatus. If you are unsure of the possible titles run tool get_shoppinglist_entries"),
-            doneStatus: z.enum(["true", "false"]).describe("The new doneStatus value of the shoppinglist entry as a string ('true' pr 'false)")
+            doneStatus: z.enum(["true", "false"]).describe("The new doneStatus value of the shoppinglist entry as a string ('true' pr 'false')")
         }
     },
     async ({ title, doneStatus }) => {
@@ -293,7 +294,7 @@ server.registerTool(
 server.registerTool(
     "get_todolist_entries",
     {
-        title: "Get TooDo List Entries",
+        title: "Get ToDo List Entries",
         description: "Get a list of Entries from the users todo list",
         inputSchema: {
             mode: z.enum(["all", "open"]).describe("Defines if all entries should be returned or only the ones that are open (not done)")
@@ -333,7 +334,7 @@ server.registerTool(
         description: "Set the doneStatus of a todo list entry. Should be called if an entry is done.",
         inputSchema: {
             title: z.string().describe("The title of the ToDo List entry to set the doneStatus. If you are unsure of the possible titles run tool get_todolist_entries"),
-            doneStatus: z.enum(["true", "false"]).describe("The new doneStatus value of the ToDo List entry as a string ('true' pr 'false)")
+            doneStatus: z.enum(["true", "false"]).describe("The new doneStatus value of the ToDo List entry as a string ('true' pr 'false')")
         }
     },
     async ({ title, doneStatus }) => {
@@ -341,7 +342,6 @@ server.registerTool(
             if (title.length === 0) {
                 throw new Error("Parameter 'title' is empty.")
             }
-            console.info(doneStatus, doneStatus === "true");
             await setDoneStatus(title, (doneStatus === "true" ? true : false), Tables.todos);
             return {
                 content: [{ type: "text", text: `Updated isDone of Entry ${title} to ${doneStatus}` }]
@@ -360,7 +360,7 @@ server.registerTool(
 server.registerTool(
     "clear_done_todolist",
     {
-        title: "Clear all done shoppinglist entries",
+        title: "Clear all done ToDo List entries",
         description: "Delete all Entries from the users ToDo List where isDone = true. If you want to give a summary of the remaining ToDos, call tool get_todoist_entries",
         inputSchema: {}
     },
