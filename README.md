@@ -1,5 +1,8 @@
 # OwnAssistant
-A customizable AI Home Assistant that integrates ollama with multiple functionalities using MCP  
+A customizable AI Home Assistant that integrates ollama with multiple functionalities using MCP.
+
+>[!NOTE]
+>Currently it is advised to only prompt for one tool call. Multiple tool calls can lead to hallucination. This will be improved in the future 
 
 ## Functionalities and Tools
 - Get the Current Datetime: 
@@ -10,6 +13,16 @@ A customizable AI Home Assistant that integrates ollama with multiple functional
 - Get Weather
   - ```get_weather_forecast```
   - ```get_weather_current```
+- Shopping List
+  - ```create_shoppinglist_entry```
+  - ```get_shoppinglist_entries```
+  - ```set_shoppinglist_done_status```
+  - ```clear_done_shoppinglist```
+- ToDo List
+  - ```create_todolist_entry```
+  - ```get_todolist_entries```
+  - ```set_todolist_done_status```
+  - ```clear_done_todolist```
 
 
 ## Getting Started
@@ -131,8 +144,8 @@ The setup is now complete. You can now start to use the google calendar function
 | Variable                    | Description                                                                            | Default                       |
 | --------------------------- | -------------------------------------------------------------------------------------- | ----------------------------- |
 | `GOOGLE_SHARED_CALENDAR_ID` | Google Calendar ID to identify the google calendar used with this application          | none                          |
-| `LATITUDE`                  | Your local latitude rounded to two decimals                                       | none                          |
-| `LONGITUDE`                 | Your local longitude rounded to two decimals                                      | none                          |
+| `LATITUDE`                  | Your local latitude rounded to two decimals                                            | none                          |
+| `LONGITUDE`                 | Your local longitude rounded to two decimals                                           | none                          |
 | `MAX_CHAT_ITERATIONS`       | Maximum Number of Iterations and Tool Calls the LLM is allowed to take                 | `6`                           |
 | `MODEL`                     | Model used to orchestrate tools. See [List of Recommended Models](#recommended-models) | `llama3.2:3b-instruct-q4_K_M` |
 | `TIMEZONE`                  | Your local timezone of this list ![timezones](res/timezones.png)                       | `Europe/Berlin`               |
