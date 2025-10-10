@@ -35,18 +35,23 @@ const ollamaTools: OllamaTool[] = mcpTools.tools.map((t) => ({
 
 const handleResponse = async (messages: Message[], response: ChatResponse) => {
     messages.push(response.message);
-    const calls = response.message?.tool_calls ?? [];
-    if (response.message.tool_calls && calls.length !== 0) {
-        for (let i = 0; i < calls.length; i++) {
-            const toolCall = calls[i];
-            console.info("[TOOL]" + toolCall.function.name, toolCall.function.arguments);
-            const toolRes = await mcpclient.callTool({
-                name: toolCall.function.name,
-                arguments: toolCall.function.arguments
+    const [toolCall, ...callOverflow] = response.message?.tool_calls ?? [];
+    if (toolCall) {
+        console.info("[TOOL]" + toolCall.function.name, toolCall.function.arguments);
+        if (callOverflow.length > 0) {
+            messages.push({
+                role: "system",
+                content:
+                    `Policy reminder: You must return at most ONE tool_call per assistant turn. Extra tool_calls (${callOverflow.length}) were ignored. Please call the tool that were not executed again one by one. The ignored tools are ${JSON.stringify(callOverflow)}`
             });
-            messages.push({ role: "tool", content: JSON.stringify(toolRes.content) as string, tool_name: toolCall.function.name });
         }
+        const toolRes = await mcpclient.callTool({
+            name: toolCall.function.name,
+            arguments: toolCall.function.arguments
+        });
+        messages.push({ role: "tool", content: JSON.stringify(toolRes.content) as string, tool_name: toolCall.function.name });
     }
+
 }
 
 export async function setupLLM(modelName: string) {
@@ -73,11 +78,17 @@ export async function callLLM(model: string, message: Message) {
             tools: ollamaTools,
             keep_alive: "5m",
             options: {
-                num_ctx: 2048
+                temperature: 0.1 - 0.25,
+                top_p: 0.9,
+                top_k: 40,           
+                repeat_penalty: 1.1,
+                num_ctx: 3000
             }
         });
         await handleResponse(messages, response);
         const toolCalls = response.message?.tool_calls ?? [];
+
+        console.info("Res: " + JSON.stringify(response, null, 2));
         if (toolCalls.length === 0) {
             done = true;
         }
