@@ -78,11 +78,11 @@ export async function callLLM(model: string, message: Message) {
             tools: ollamaTools,
             keep_alive: "5m",
             options: {
-                temperature: 0.1 - 0.25,
+                temperature: 0.1,
                 top_p: 0.9,
                 top_k: 40,           
                 repeat_penalty: 1.1,
-                num_ctx: 3000
+                num_ctx: 6000
             }
         });
         await handleResponse(messages, response);

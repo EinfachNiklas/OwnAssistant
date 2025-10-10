@@ -243,7 +243,7 @@ server.registerTool(
         description: "Delete all Entries from the users shoppinglist where isDone = true. If you want to give a summary of the remaining shopping list call tool get_shoppinglist_entries",
         inputSchema: {}
     },
-    async ({ }) => {
+    async () => {
         try {
             await clearDone(Tables.shoppinglist);
             return {
@@ -364,9 +364,9 @@ server.registerTool(
         description: "Delete all Entries from the users ToDo List where isDone = true. If you want to give a summary of the remaining ToDos, call tool get_todoist_entries",
         inputSchema: {}
     },
-    async ({ }) => {
+    async () => {
         try {
-            await clearDone(Tables.shoppinglist);
+            await clearDone(Tables.todos);
             return {
                 content: [{ type: "text", text: `Cleared all done ToDo List entries` }]
             };
