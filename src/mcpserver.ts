@@ -78,8 +78,6 @@ server.registerTool(
                 throw new Error("At least 1 Parameter is empty.");
             }
             const startTime = new Date(start);
-            }
-            const startTime = new Date(start);
             const endTime = new Date(end);
             const event = await createEvent(title, startTime, endTime);
             return {
