@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-const SERPER_SEARCH_API_KEY = process.env.SERPER_SEARCH_API_KEY;
+const SERPER_SEARCH_API_KEY = process.env.SERPER_SEARCH_API_KEY!;
 
 export interface webPageSearchResult {
     text: string,
@@ -25,7 +25,7 @@ if (!SERPER_SEARCH_API_KEY) {
 export async function overviewWebSearch(query: string, lang: string, country: string): Promise<overviewWebSearchResult> {
     const res = await fetch("https://google.serper.dev/search", {
         method: "POST",
-        'headers': {
+        "headers": {
             'X-API-KEY': SERPER_SEARCH_API_KEY,
             'Content-Type': 'application/json'
         },
