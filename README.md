@@ -7,7 +7,7 @@ A customizable AI Home Assistant that integrates ollama with multiple functional
 ## Functionalities and Tools
 - Get the Current Datetime: 
   - ```get_current_datetime```
-- Work with Google Calendar - [Setup](#google-calendar):
+- Work with Google Calendar - [Setup](#google-calendar)
   - ```create_event```
   - ```get_events```
 - Get Weather
@@ -23,7 +23,7 @@ A customizable AI Home Assistant that integrates ollama with multiple functional
   - ```get_todolist_entries```
   - ```set_todolist_done_status```
   - ```clear_done_todolist```
-- Web Search
+- Web Search - [Setup](#serper)
   - ```web_search_overview```
   - ```web_search_page```
 
