@@ -4,6 +4,8 @@ import { z } from "zod";
 import { getEvents, createEvent } from "./mcptools/googleapi.js";
 import { Current, Forecast, get_current, get_forecast } from "./mcptools/weather.js";
 import { clearDone, createEntry, DBEntry, getAllEntries, getOpenEntries, setDoneStatus, Tables } from "./mcptools/db.js";
+import { webPageSearch, overviewWebSearch } from "./mcptools/websearch.js";
+import { text } from "stream/consumers";
 
 const server = new McpServer({
     name: "ownassistant-mcp",
@@ -379,6 +381,66 @@ server.registerTool(
             };
         }
     },
+);
+
+
+//WebSearch
+server.registerTool(
+    "webSearchOverview",
+    {
+        title: "WebSearch",
+        description: "Get an overview of webpages related to a query",
+        inputSchema: {
+            query: z.string().describe("The query to get web search results for")
+        }
+    },
+    async ({ query }) => {
+        try {
+            const results = await overviewWebSearch(query, "de", "de");
+            return {
+                content: [{
+                    type: "text",
+                    text: `Web Search Results: ${JSON.stringify(results)}`
+                }]
+            }
+        } catch (error: any) {
+            return {
+                content: [{
+                    type: "text",
+                    text: `There was an error when searching the web: ${error?.message ?? error}`
+                }]
+            };
+        }
+    }
+);
+
+server.registerTool(
+    "webSearchPage",
+    {
+        title: "WebSearch",
+        description: "Get the content of a webpage to a provided url",
+        inputSchema: {
+            url: z.string().url().describe("The query to get web search results for")
+        }
+    },
+    async ({ url }) => {
+        try {
+            const results = await webPageSearch(url);
+            return {
+                content: [{
+                    type: "text",
+                    text: `Web Page Content for ${url}: ${JSON.stringify(results)}`
+                }]
+            }
+        } catch (error: any) {
+            return {
+                content: [{
+                    type: "text",
+                    text: `There was an error when fetching the webpage ${url}: ${error?.message ?? error}`
+                }]
+            };
+        }
+    }
 );
 
 const transport = new StdioServerTransport();

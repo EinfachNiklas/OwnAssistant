@@ -69,5 +69,3 @@ export async function webPageSearch(url: string): Promise<webPageSearchResult> {
     result.description = data.metadata.description;
     return result;
 }
-
-await console.log(await webPageSearch("https://sap.com"));
