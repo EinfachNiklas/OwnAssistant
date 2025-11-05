@@ -4,6 +4,7 @@ import { z } from "zod";
 import { getEvents, createEvent } from "./mcptools/googleapi.js";
 import { Current, Forecast, get_current, get_forecast } from "./mcptools/weather.js";
 import { clearDone, createEntry, DBEntry, getAllEntries, getOpenEntries, setDoneStatus, Tables } from "./mcptools/db.js";
+import { webPageSearch, overviewWebSearch } from "./mcptools/websearch.js";
 
 const server = new McpServer({
     name: "ownassistant-mcp",
@@ -76,8 +77,6 @@ server.registerTool(
         try {
             if (title.length === 0 || start.length === 0 || end.length === 0) {
                 throw new Error("At least 1 Parameter is empty.");
-            }
-            const startTime = new Date(start);
             }
             const startTime = new Date(start);
             const endTime = new Date(end);
@@ -381,6 +380,69 @@ server.registerTool(
             };
         }
     },
+);
+
+
+//WebSearch
+server.registerTool(
+    "web_search_overview",
+    {
+        title: "WebSearch",
+        description: "Get an overview of webpages related to a query",
+        inputSchema: {
+            query: z.string().describe("The query to get web search results for")
+        }
+    },
+    async ({ query }) => {
+        try {
+            const results = await overviewWebSearch(query, "de", "de");
+            return {
+                content: [{
+                    type: "text",
+                    text: `Web Search Results: ${JSON.stringify(results)}`
+                }]
+            }
+        } catch (error: any) {
+            return {
+                content: [{
+                    type: "text",
+                    text: `There was an error when searching the web: ${error?.message ?? error}`
+                }]
+            };
+        }
+    }
+);
+
+server.registerTool(
+    "web_search_page",
+    {
+        title: "WebSearch",
+        description: "Get the content of a webpage to a provided url",
+        inputSchema: {
+            url: z.string().url().describe("The query to get web search results for")
+        }
+    },
+    async ({ url }) => {
+        try {
+            if(!url || url.trim.length === 0){
+                throw new Error("URL parameter cannot be empty");
+            }
+            const results = await webPageSearch(url);
+            return {
+                content: [{
+                    type: "text",
+                    text: `Web Page Content for ${url}: ${JSON.stringify(results)}`
+                }]
+            }
+        } catch (error: any) {
+            return {
+                content: [{
+                    type: "text",
+                    text: `There was an error when fetching the webpage ${url}: ${error?.message ?? error}`
+                }]
+            };
+        }
+    }
 );
 
 const transport = new StdioServerTransport();
