@@ -82,7 +82,7 @@ export async function callLLM(model: string, message: Message) {
                 top_p: 0.9,
                 top_k: 40,           
                 repeat_penalty: 1.1,
-                num_ctx: 6000
+                num_ctx: 3000
             }
         });
         await handleResponse(messages, response);
