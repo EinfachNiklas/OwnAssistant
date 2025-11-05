@@ -1,7 +1,6 @@
 import 'dotenv/config';
-import { Interface } from 'readline';
 
-const SERPER_SEARCH_API_KEY = process.env.SERPER_SEARCH_API_KEY!;
+const SERPER_SEARCH_API_KEY = process.env.SERPER_SEARCH_API_KEY;
 
 export interface webPageSearchResult {
     text: string,
@@ -64,8 +63,8 @@ export async function webPageSearch(url: string): Promise<webPageSearchResult> {
     }
     const data = await res.json();
     let result: webPageSearchResult = { text: "", title: "", description: "" };
-    result.text = data.text;
-    result.title = data.metadata.title;
-    result.description = data.metadata.description;
+    result.text = data.text || "";
+    result.title = data.metadata.title || "";
+    result.description = data.metadata.description || "";
     return result;
 }

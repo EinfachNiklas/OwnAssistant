@@ -5,7 +5,6 @@ import { getEvents, createEvent } from "./mcptools/googleapi.js";
 import { Current, Forecast, get_current, get_forecast } from "./mcptools/weather.js";
 import { clearDone, createEntry, DBEntry, getAllEntries, getOpenEntries, setDoneStatus, Tables } from "./mcptools/db.js";
 import { webPageSearch, overviewWebSearch } from "./mcptools/websearch.js";
-import { text } from "stream/consumers";
 
 const server = new McpServer({
     name: "ownassistant-mcp",
@@ -425,6 +424,9 @@ server.registerTool(
     },
     async ({ url }) => {
         try {
+            if(!url || url.trim.length === 0){
+                throw new Error("URL parameter cannot be empty");
+            }
             const results = await webPageSearch(url);
             return {
                 content: [{
