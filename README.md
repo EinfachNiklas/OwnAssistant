@@ -48,7 +48,9 @@ npm install
 
 #### Setting Environment Variables
 
-In the root directory copy `.env.example` to `.env` and change the values. Find a list of all Environment Variables [here](#environment-variables)
+In the root directory copy `.env.example` to `.env` and change the values. Find a list of all Environment Variables [here](#environment-variables).
+
+It is important to decide on a LLM you want to use. You can see a list of recommended models [here](#recommended-models). It is strongly advised to choose at least a model from the "Medium" Category.
 
 #### Setting up Ollama
 
@@ -162,6 +164,9 @@ To acquire an API Key visit [https://serper.dev/](https://serper.dev/) and creat
 #### Small
 - qwen2.5:3b-instruct-q4_K_M
 - llama3.2:3b-instruct-q4_K_M
+
+#### Medium
+- llama3.1:8b-instruct-q4_0
 
 ### Planned Architecture
 
