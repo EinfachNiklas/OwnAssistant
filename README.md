@@ -23,7 +23,9 @@ A customizable AI Home Assistant that integrates ollama with multiple functional
   - ```get_todolist_entries```
   - ```set_todolist_done_status```
   - ```clear_done_todolist```
-
+- Web Search
+  - ```web_search_overview```
+  - ```web_search_page```
 
 ## Getting Started
 
@@ -132,6 +134,11 @@ On this settings page scroll down to "Integrate calendar" and copy the calendar-
 
 The setup is now complete. You can now start to use the google calendar functionalities.
 
+### Serper
+To use the websearch functionality, a Search Engine API is used. Currently only Serper is supported, since it is free and offers sufficient functionalities.
+
+To aquire an API Key visit [https://serper.dev/](https://serper.dev/) and create an account. After signing in copy the API Key from the dashboard to the ```.env``` file.
+
 ## Technical Details
 
 ### Built With
@@ -143,6 +150,7 @@ The setup is now complete. You can now start to use the google calendar function
 
 | Variable                    | Description                                                                            | Default                       |
 | --------------------------- | -------------------------------------------------------------------------------------- | ----------------------------- |
+| `SERPER_SEARCH_API_KEY`     | SERPER API KEY for Web Searches                                                        | none                          |
 | `GOOGLE_SHARED_CALENDAR_ID` | Google Calendar ID to identify the google calendar used with this application          | none                          |
 | `LATITUDE`                  | Your local latitude rounded to two decimals                                            | none                          |
 | `LONGITUDE`                 | Your local longitude rounded to two decimals                                           | none                          |

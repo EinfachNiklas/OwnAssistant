@@ -386,7 +386,7 @@ server.registerTool(
 
 //WebSearch
 server.registerTool(
-    "webSearchOverview",
+    "web_search_overview",
     {
         title: "WebSearch",
         description: "Get an overview of webpages related to a query",
@@ -415,7 +415,7 @@ server.registerTool(
 );
 
 server.registerTool(
-    "webSearchPage",
+    "web_search_page",
     {
         title: "WebSearch",
         description: "Get the content of a webpage to a provided url",
