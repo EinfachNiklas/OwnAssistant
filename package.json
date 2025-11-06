@@ -7,7 +7,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "build": "tsc && shx cp -n src/prompts.json dist/prompts.json",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "ollama-init": "docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama",
     "ollama-start": "docker start ollama",

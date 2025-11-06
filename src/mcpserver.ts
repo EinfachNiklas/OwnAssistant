@@ -388,7 +388,7 @@ server.registerTool(
     "web_search_overview",
     {
         title: "WebSearch",
-        description: "Get an overview of webpages related to a query",
+        description: "Get an overview of webpages and their urls related to a query, if no url is specified by the user, you need to run this tool first to do websearch",
         inputSchema: {
             query: z.string().describe("The query to get web search results for")
         }
@@ -419,12 +419,12 @@ server.registerTool(
         title: "WebSearch",
         description: "Get the content of a webpage to a provided url",
         inputSchema: {
-            url: z.string().url().describe("The query to get web search results for")
+            url: z.string().url().describe("The url of the webpage to get the content for")
         }
     },
     async ({ url }) => {
         try {
-            if(!url || url.trim.length === 0){
+            if(!url || url.trim().length === 0){
                 throw new Error("URL parameter cannot be empty");
             }
             const results = await webPageSearch(url);
