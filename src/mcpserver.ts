@@ -414,10 +414,10 @@ server.registerTool(
 );
 
 server.registerTool(
-    "web_search_page",
+    "fetch_webpage_content",
     {
-        title: "WebSearch",
-        description: "Get the content of a webpage to a provided url",
+        title: "FetchWebPageContent",
+        description: "Get the content of a webpage to a provided url. Should be used to get further info about a url",
         inputSchema: {
             url: z.string().url().describe("The url of the webpage to get the content for")
         }
