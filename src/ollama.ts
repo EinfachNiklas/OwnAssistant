@@ -1,4 +1,4 @@
-import ollama, { ChatResponse, Message } from "ollama";
+import ollama, { ChatResponse, Message, ToolCall } from "ollama";
 import mcpclient from "./mcpclient.js";
 import ora from "ora";
 import { readFileSync } from "fs";
@@ -43,12 +43,38 @@ ollamaTools.push({
         },
     }
 });
+const allowedToolNames = new Set(ollamaTools.map(t => t.function.name));
 
 
+function parseToolCallFromContent(msg: Message): ToolCall | null {
+  if (!msg.content) return null;
+
+  const trimmed = msg.content.trim();
+
+  if (!trimmed.startsWith("{") || !trimmed.endsWith("}")) return null;
+
+  try {
+    const obj = JSON.parse(trimmed);
+    if (typeof obj.name !== "string") return null;
+    if (obj.parameters === undefined) return null;
+
+    if (!allowedToolNames.has(obj.name)) {
+        //ignore
+      return null;
+    }
+
+    return {function : { name : obj.name, arguments: obj.parameters } };
+  } catch {
+    return null;
+  }
+}
 
 const handleResponse = async (messages: Message[], response: ChatResponse) => {
     messages.push(response.message);
-    const [toolCall, ...callOverflow] = response.message?.tool_calls ?? [];
+    let [toolCall, ...callOverflow] = response.message?.tool_calls ?? [];
+    if(toolCall === undefined || !toolCall){
+        toolCall = parseToolCallFromContent(response.message)!;
+    }
     if (toolCall) {
         console.info("[TOOL]" + toolCall.function.name, toolCall.function.arguments);
         if (callOverflow.length > 0) {
@@ -57,7 +83,16 @@ const handleResponse = async (messages: Message[], response: ChatResponse) => {
                 content:
                     `Policy reminder: You must return at most ONE tool_call per assistant turn. Extra tool_calls (${callOverflow.length}) were ignored. Please call the tool that were not executed again one by one. The ignored tools are ${JSON.stringify(callOverflow)}`
             });
-        }
+        	return;
+	}
+	if (!allowedToolNamed.has(toolCall.function.name)) {
+		messages.push({
+                role: "user",
+                content:
+                    `This tool does not exist.` });
+
+		return;
+	}
         if (toolCall.function.name === "signal_done") {
             signal_done = true;
             messages.push({
