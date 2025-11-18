@@ -116,11 +116,19 @@ const handleResponse = async (messages: Message[], response: ChatResponse) => {
         });
         return;
     }
-    const toolRes = await mcpclient.callTool({
-        name: toolCall.function.name,
-        arguments: toolCall.function.arguments
-    });
-    messages.push({ role: "tool", content: JSON.stringify(toolRes.content) as string, tool_name: toolCall.function.name });
+    try {
+        const toolRes = await mcpclient.callTool({
+            name: toolCall.function.name,
+            arguments: toolCall.function.arguments
+        });
+        messages.push({ role: "tool", content: JSON.stringify(toolRes.content) as string, tool_name: toolCall.function.name });
+    } catch (error: any) {
+        messages.push({
+            role: "tool",
+            tool_name: toolCall.function.name,
+            content: JSON.stringify({ error: `Tool call failed: ${error.message}` }),
+        });
+    }
 }
 
 
@@ -155,7 +163,7 @@ export async function callLLM(model: string, message: Message) {
     messages.push({
         role: "user",
         content:
-            "Now produce a final answer for the user based on the conversation and the tool results above. " +
+            `Now produce a final answer for the users question ${message.content} based on the conversation and the tool results above. ` +
             "Do NOT call any tools. Do NOT output JSON. Answer in plain natural language and in the language, that was used with the tag [USERINPUT].",
     },)
     const finalResponse = await ollama.chat({
