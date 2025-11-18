@@ -431,7 +431,7 @@ server.registerTool(
             return {
                 content: [{
                     type: "text",
-                    text: `Web Page Content for ${url}: ${JSON.stringify(results)}`
+                    text: `Web Page Content for ${url}: ${JSON.stringify(results.text.slice(0, 5000))}`
                 }]
             }
         } catch (error: any) {
