@@ -414,9 +414,9 @@ server.registerTool(
 );
 
 server.registerTool(
-    "fetch_webpage_content",
+    "web_page_content",
     {
-        title: "FetchWebPageContent",
+        title: "WebPageContent",
         description: "Get the content of a webpage to a provided url. Should be used to get further info about a url",
         inputSchema: {
             url: z.string().url().describe("The url of the webpage to get the content for")

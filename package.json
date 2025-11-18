@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "ollama-init": "docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama",
+    "ollama-init": "docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama:latest",
     "ollama-start": "docker start ollama",
     "ollama-stop": "docker stop ollama",
     "start": "node -r dotenv/config dist/index.js"

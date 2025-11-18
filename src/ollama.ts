@@ -85,7 +85,7 @@ const handleResponse = async (messages: Message[], response: ChatResponse) => {
             });
         	return;
 	}
-	if (!allowedToolNamed.has(toolCall.function.name)) {
+	if (!allowedToolNames.has(toolCall.function.name)) {
 		messages.push({
                 role: "user",
                 content:
@@ -140,7 +140,8 @@ export async function callLLM(model: string, message: Message) {
                 top_p: 0.9,
                 top_k: 40,
                 repeat_penalty: 1.1,
-                num_ctx: 3000
+                num_ctx: 3000,
+                num_gpu: 30,
             }
         });
         await handleResponse(messages, response);
@@ -164,7 +165,8 @@ export async function callLLM(model: string, message: Message) {
             top_p: 0.9,
             top_k: 40,
             repeat_penalty: 1.1,
-            num_ctx: 3000
+            num_ctx: 3000,
+            num_gpu: 30
         }
     });
     messages.push(finalResponse.message);
