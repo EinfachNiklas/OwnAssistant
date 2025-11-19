@@ -1,14 +1,12 @@
 import ollama, { ChatResponse, Message, ToolCall } from "ollama";
 import mcpclient from "./mcpclient.js";
 import ora from "ora";
-import { readFileSync } from "fs";
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import path from "node:path";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
 const MAX_CHAT_ITERATIONS = Number(process.env.MAX_CHAT_ITERATIONS) || 6;
-const NUM_GPU = Number(process.env.NUM_GPU) || 20;
+const rawNumGpu = process.env.NUM_GPU;
+
+const parsed = rawNumGpu !== undefined ? Number(rawNumGpu) : undefined;
+const NUM_GPU = Number.isFinite(parsed as number) ? (parsed as number) : 15;
 const mcpTools = await mcpclient.listTools();
 
 type OllamaTool = {
@@ -49,6 +47,9 @@ const allowedToolNames = new Set(ollamaTools.map(t => t.function.name));
 
 
 export async function setupLLM(modelName: string) {
+    if (!modelName) {
+        modelName = "llama3.1:8b-instruct-q4_0";
+    }
     console.log("Setting Up LLM...");
     const models = (await ollama.list()).models;
     if (!models.map(model => model.name).includes(modelName)) {

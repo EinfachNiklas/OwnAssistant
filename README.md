@@ -25,7 +25,7 @@ A customizable AI Home Assistant that integrates ollama with multiple functional
   - ```clear_done_todolist```
 - Web Search - [Setup](#serper)
   - ```web_search_overview```
-  - ```web_search_page```
+  - ```web_page_content```
 
 ## Getting Started
 
@@ -157,8 +157,8 @@ To acquire an API Key visit [https://serper.dev/](https://serper.dev/) and creat
 | `LATITUDE`                  | Your local latitude rounded to two decimals                                            | none                          |
 | `LONGITUDE`                 | Your local longitude rounded to two decimals                                           | none                          |
 | `MAX_CHAT_ITERATIONS`       | Maximum Number of Iterations and Tool Calls the LLM is allowed to take                 | `6`                           |
-| `MODEL`                     | Model used to orchestrate tools. See [List of Recommended Models](#recommended-models) | `llama3.2:3b-instruct-q4_K_M` |
-| `NUM_GPU`                   | The number of layers of the model will be executed on the GPU                          | `10` |
+| `MODEL`                     | Model used to orchestrate tools. See [List of Recommended Models](#recommended-models) | `llama3.1:8b-instruct-q4_0`   |
+| `NUM_GPU`                   | The number of layers of the model will be executed on the GPU                          | `15`                          |
 | `TIMEZONE`                  | Your local timezone of this list ![timezones](res/timezones.png)                       | `Europe/Berlin`               |
 
 ### Recommended Models
