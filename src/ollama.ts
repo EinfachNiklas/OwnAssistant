@@ -29,7 +29,7 @@ const ollamaTools: OllamaTool[] = mcpTools.tools.map((t) => ({
         parameters:
             t.inputSchema ?? { type: "object", properties: {} },
     },
-}));;
+}));
 
 ollamaTools.push({
     type: "function",
@@ -81,12 +81,13 @@ function parseToolCallFromContent(msg: Message): ToolCall | null {
 }
 
 const handleResponse = async (messages: Message[], response: ChatResponse) => {
+	let contentCall: ToolCall | null = null;
     messages.push(response.message);
     let [toolCall, ...callOverflow] = response.message?.tool_calls ?? [];
     if (toolCall === undefined || !toolCall) {
-        toolCall = parseToolCallFromContent(response.message)!;
+        contentCall = parseToolCallFromContent(response.message);
     }
-    if (toolCall === null) {
+    if (toolCall === null && contentCall === null) {
         signal_done = true;
         return;
     }
@@ -165,7 +166,7 @@ export async function callLLM(model: string, message: Message) {
         role: "user",
         content:
             `Now produce a final answer for the users question ${message.content} based on the conversation and the tool results above. ` +
-            "Do NOT call any tools. Do NOT output JSON. Answer in plain natural language and in the language, that was used with the tag [USERINPUT].",
+            "Do NOT call any tools. Do NOT output JSON. Answer in plain natural language and in the language, that was used with the tag.",
     },)
     const finalResponse = await ollama.chat({
         model: model,

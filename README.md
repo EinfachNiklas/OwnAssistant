@@ -137,7 +137,7 @@ On this settings page scroll down to "Integrate calendar" and copy the calendar-
 The setup is now complete. You can now start to use the google calendar functionalities.
 
 ### Serper
-To use the web search functionality, a Search Engine API is used. Currently only Serper is supported, since it is free and offers sufficient functionalities.
+To use the web search functionality, a Search Engine API is used. Currently only Serper is supported, since it offers a free tier and offers sufficient functionalities.
 
 To acquire an API Key visit [https://serper.dev/](https://serper.dev/) and create an account. After signing in copy the API Key from the dashboard to the ```.env``` file.
 
