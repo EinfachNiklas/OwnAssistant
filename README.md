@@ -7,7 +7,7 @@ A customizable AI Home Assistant that integrates ollama with multiple functional
 ## Functionalities and Tools
 - Get the Current Datetime: 
   - ```get_current_datetime```
-- Work with Google Calendar - [Setup](#google-calendar):
+- Work with Google Calendar - [Setup](#google-calendar)
   - ```create_event```
   - ```get_events```
 - Get Weather
@@ -23,7 +23,9 @@ A customizable AI Home Assistant that integrates ollama with multiple functional
   - ```get_todolist_entries```
   - ```set_todolist_done_status```
   - ```clear_done_todolist```
-
+- Web Search - [Setup](#serper)
+  - ```web_search_overview```
+  - ```web_page_content```
 
 ## Getting Started
 
@@ -46,7 +48,9 @@ npm install
 
 #### Setting Environment Variables
 
-In the root directory copy `.env.example` to `.env` and change the values. Find a list of all Environment Variables [here](#environment-variables)
+In the root directory copy `.env.example` to `.env` and change the values. Find a list of all Environment Variables [here](#environment-variables).
+
+It is important to decide on a LLM you want to use. You can see a list of recommended models [here](#recommended-models). It is strongly advised to choose at least a model from the "Medium" Category.
 
 #### Setting up Ollama
 
@@ -132,6 +136,11 @@ On this settings page scroll down to "Integrate calendar" and copy the calendar-
 
 The setup is now complete. You can now start to use the google calendar functionalities.
 
+### Serper
+To use the web search functionality, a Search Engine API is used. Currently only Serper is supported, since it offers a free tier and offers sufficient functionalities.
+
+To acquire an API Key visit [https://serper.dev/](https://serper.dev/) and create an account. After signing in copy the API Key from the dashboard to the ```.env``` file.
+
 ## Technical Details
 
 ### Built With
@@ -143,17 +152,22 @@ The setup is now complete. You can now start to use the google calendar function
 
 | Variable                    | Description                                                                            | Default                       |
 | --------------------------- | -------------------------------------------------------------------------------------- | ----------------------------- |
+| `SERPER_SEARCH_API_KEY`     | SERPER API KEY for Web Searches                                                        | none                          |
 | `GOOGLE_SHARED_CALENDAR_ID` | Google Calendar ID to identify the google calendar used with this application          | none                          |
 | `LATITUDE`                  | Your local latitude rounded to two decimals                                            | none                          |
 | `LONGITUDE`                 | Your local longitude rounded to two decimals                                           | none                          |
 | `MAX_CHAT_ITERATIONS`       | Maximum Number of Iterations and Tool Calls the LLM is allowed to take                 | `6`                           |
-| `MODEL`                     | Model used to orchestrate tools. See [List of Recommended Models](#recommended-models) | `llama3.2:3b-instruct-q4_K_M` |
+| `MODEL`                     | Model used to orchestrate tools. See [List of Recommended Models](#recommended-models) | `llama3.1:8b-instruct-q4_0`   |
+| `NUM_GPU`                   | The number of layers of the model will be executed on the GPU                          | `15`                          |
 | `TIMEZONE`                  | Your local timezone of this list ![timezones](res/timezones.png)                       | `Europe/Berlin`               |
 
 ### Recommended Models
 #### Small
 - qwen2.5:3b-instruct-q4_K_M
 - llama3.2:3b-instruct-q4_K_M
+
+#### Medium
+- llama3.1:8b-instruct-q4_0
 
 ### Planned Architecture
 

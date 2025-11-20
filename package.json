@@ -7,9 +7,9 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "build": "tsc && shx cp -n src/prompts.json dist/prompts.json",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "ollama-init": "docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama",
+    "ollama-init": "docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama:latest",
     "ollama-start": "docker start ollama",
     "ollama-stop": "docker stop ollama",
     "start": "node -r dotenv/config dist/index.js"
@@ -29,7 +29,6 @@
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^24.5.2",
-    "shx": "^0.4.0",
     "typescript": "^5.9.2"
   },
   "dependencies": {
